@@ -1,7 +1,7 @@
 var time = new Date();
 var day = time.getDate();
 
-localStorage.setItem("dayCompleted", 10);
+// localStorage.setItem("dayCompleted", 10);
 // localStorage.setItem("level", 5);
 // console.log(localStorage.getItem("level"));
 
