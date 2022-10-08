@@ -20,7 +20,7 @@ console.log(goals);
 // add item to goals
 document.querySelector(".add").addEventListener("click", function() {
     let promp = prompt("Please enter your name", "Type your goal");
-    goals[promp] = ({ title: promp, times: 0, completed: "" });
+    goals[promp] = ({ title: promp, times: 0, completed: "", day: day });
     document.querySelector("main").insertAdjacentHTML(
         'beforeend', `<section id="`+[promp]+`" class="goal `+goals[promp]["completed"]+`"><p class="task">`+goals[promp]["title"]+`</p>  <p class="times">`+goals[promp]["times"]+`</p></section>`
     );
@@ -31,15 +31,21 @@ document.querySelector(".add").addEventListener("click", function() {
 // When click item add completed and increase number
 function completed(){
     document.querySelectorAll(".goal").forEach((goal) => {
+        if(goals[goal.id]["day"] != day && goals[goal.id]["completed"] != "completed" ){
+            goal.remove();
+            delete goals[goal.id];
+            return;
+        }
+        if(goals[goal.id]["day"] != day && goals[goal.id]["completed"] == "completed"){
+            goals[goal.id]["day"] = day;
+            goal.classList.toggle("completed");
+            goals[goal.id]["completed"] = "";
+        }
         goal.addEventListener('click', () => {
             if(goals[goal.id]["completed"] != "completed"){
-                if(goals[goal.id]["day"] == day){
-                    goal.remove();
-                }
                 goal.classList.toggle("completed");
                 goals[goal.id]["completed"] = "completed";
                 goals[goal.id]["times"] = goals[goal.id]["times"]+1;
-                goals[goal.id]["oldday"] = goals[goal.id]["day"];
                 goals[goal.id]["day"] = day;
                 goal.querySelector(".times").innerHTML = goals[goal.id]["times"];
                 completed();
@@ -50,7 +56,6 @@ function completed(){
                 goals[goal.id]["completed"] = "";
                 goals[goal.id]["times"] = goals[goal.id]["times"]-1;
                 goal.querySelector(".times").innerHTML = goals[goal.id]["times"];
-                goals[goal.id]["day"] = goals[goal.id]["oldday"];
                 completed();
                 
             }
