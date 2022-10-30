@@ -17,16 +17,17 @@ document.querySelector(".add").addEventListener("click", function() {
 function completed(){
     document.querySelectorAll(".goal").forEach((goal) => {
         goal.addEventListener('click', () => {
-            if(goals[goal.id]["day"] == day){
-                goal.remove();
-            }
             if(goals[goal.id]["completed"] != "completed"){
+                if(goals[goal.id]["day"] == day){
+                    goal.remove();
+                }
                 goal.classList.toggle("completed");
                 goals[goal.id]["completed"] = "completed";
                 goals[goal.id]["times"] = goals[goal.id]["times"]+1;
-                goals[goal.id]["oldday"] = "pizza";
+                goals[goal.id]["oldday"] = goals[goal.id]["day"];
                 goals[goal.id]["day"] = day;
                 goal.querySelector(".times").innerHTML = goals[goal.id]["times"];
+                completed();
                 
             }
             else{
@@ -34,10 +35,11 @@ function completed(){
                 goals[goal.id]["completed"] = "";
                 goals[goal.id]["times"] = goals[goal.id]["times"]-1;
                 goal.querySelector(".times").innerHTML = goals[goal.id]["times"];
-                goals[goal.id]["day"] = "pizza";
+                goals[goal.id]["day"] = goals[goal.id]["oldday"];
+                completed();
                 
             }
-        });
+        }, {once : true});
     });
 }
 
