@@ -1,35 +1,77 @@
 var time = new Date();
 var day = time.getDate();
 
-// localStorage.setItem("dayCompleted", 10);
-// localStorage.setItem("level", 5);
-// console.log(localStorage.getItem("level"));
+var goals = {}
 
-
-if(localStorage.getItem("dayCompleted") == day){
-    document.querySelector("div").classList.add("grow2");
-    document.querySelector(".done").classList.add("show2");
-}
-
-if (localStorage.getItem("level") > 15){
-    document.querySelector("div").classList.add("habbitCompleted");
-    document.querySelector(".done").textContent = "You completed your habbit";
-}
-
-document.querySelector("div").addEventListener("click", function() {
-    if(localStorage.getItem("dayCompleted") == day){    
-        return
-    }
-    this.classList.add("grow");
-    document.querySelector(".done").classList.add("show");
-    localStorage.setItem("dayCompleted", day);
-    console.log(localStorage.getItem("level"));
-    if (localStorage.getItem("level") == null){
-        localStorage.setItem("level", 5);
-        return;
-    }
-    localStorage.setItem("level", parseInt(localStorage.getItem("level")) + 1);
+// add item to goals
+document.querySelector(".add").addEventListener("click", function() {
+    let promp = prompt("Please enter your name", "Type your goal");
+    goals[promp] = ({ title: promp, times: 0, completed: "" });
+    document.querySelector("main").insertAdjacentHTML(
+        'beforeend', `<section id="`+[promp]+`" class="goal `+goals[promp]["completed"]+`"><p class="task">`+goals[promp]["title"]+`</p>  <p class="times">`+goals[promp]["times"]+`</p></section>`
+    );
+    completed();
 });
+
+// When click item add completed and increase number
+function completed(){
+    document.querySelectorAll(".goal").forEach((goal) => {
+        goal.addEventListener('click', () => {
+            if(goals[goal.id]["day"] == day){
+                goal.remove();
+            }
+            if(goals[goal.id]["completed"] != "completed"){
+                goal.classList.toggle("completed");
+                goals[goal.id]["completed"] = "completed";
+                goals[goal.id]["times"] = goals[goal.id]["times"]+1;
+                goals[goal.id]["oldday"] = "pizza";
+                goals[goal.id]["day"] = day;
+                goal.querySelector(".times").innerHTML = goals[goal.id]["times"];
+                
+            }
+            else{
+                goal.classList.toggle("completed");
+                goals[goal.id]["completed"] = "";
+                goals[goal.id]["times"] = goals[goal.id]["times"]-1;
+                goal.querySelector(".times").innerHTML = goals[goal.id]["times"];
+                goals[goal.id]["day"] = "pizza";
+                
+            }
+        });
+    });
+}
+
+completed();
+
+
+
+
+
+
+// // localStorage.setItem("dayCompleted", 10);
+// // localStorage.setItem("level", 5);
+// // console.log(localStorage.getItem("level"));
+
+
+// if(localStorage.getItem("dayCompleted") == day){
+//     document.querySelector("div").classList.add("grow2");
+//     document.querySelector(".done").classList.add("show2");
+// }
+
+// document.querySelector("div").addEventListener("click", function() {
+//     if(localStorage.getItem("dayCompleted") == day){    
+//         return
+//     }
+//     this.classList.add("grow");
+//     document.querySelector(".done").classList.add("show");
+//     localStorage.setItem("dayCompleted", day);
+//     console.log(localStorage.getItem("level"));
+//     if (localStorage.getItem("level") == null){
+//         localStorage.setItem("level", 5);
+//         return;
+//     }
+//     localStorage.setItem("level", parseInt(localStorage.getItem("level")) + 1);
+// });
 
 
 
