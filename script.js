@@ -15,27 +15,6 @@ for (item in goals){
     );
 }
 
-console.log(goals);
-
-function toggle(item){
-    document.getElementById(item).addEventListener('click', () => {
-        if(goals[item]["completed"] != "completed"){
-            document.getElementById(item).classList.toggle("completed");
-            goals[item]["completed"] = "completed";
-            goals[item]["times"] = goals[item]["times"]+1;
-            goals[item]["day"] = day;
-            document.querySelector(`#`+item+` .times`).innerHTML = goals[item]["times"];            
-        }
-        else{
-            document.getElementById(item).classList.toggle("completed");
-            goals[item]["completed"] = "";
-            goals[item]["times"] = goals[item]["times"]-1;
-            document.querySelector(`#`+item+` .times`).innerHTML = goals[item]["times"];            
-        }
-        localStorage.setItem('data', JSON.stringify(goals));
-    });
-}
-
 // add item to goals
 document.querySelector(".add").addEventListener("click", function() {
     var promp = prompt("Please enter your name", "Type your goal");
@@ -69,6 +48,25 @@ function completed(){
         }
         toggle(goal.id);
 
+    });
+}
+
+function toggle(item){
+    document.getElementById(item).addEventListener('click', () => {
+        if(goals[item]["completed"] != "completed"){
+            document.getElementById(item).classList.toggle("completed");
+            goals[item]["completed"] = "completed";
+            goals[item]["times"] = goals[item]["times"]+1;
+            goals[item]["day"] = day;
+            document.querySelector(`#`+item+` .times`).textContent = goals[item]["times"];            
+        }
+        else{
+            document.getElementById(item).classList.toggle("completed");
+            goals[item]["completed"] = "";
+            goals[item]["times"] = goals[item]["times"]-1;
+            document.querySelector(`#`+item+` .times`).textContent  = goals[item]["times"];            
+        }
+        localStorage.setItem('data', JSON.stringify(goals));
     });
 }
 
