@@ -53,6 +53,9 @@ document.querySelector(".add").addEventListener("click", function() {
 
 // When click item add completed and increase number
 function completed(){
+    if(!document.querySelectorAll(".goal")){
+        return;
+    }
     document.querySelectorAll(".goal").forEach((goal) => {
         if(goals[goal.id]["day"] != day && goals[goal.id]["completed"] != "completed" ){
             goal.remove();
