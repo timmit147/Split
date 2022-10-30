@@ -48,7 +48,7 @@ document.querySelector(".add").addEventListener("click", function() {
     document.querySelector("main").insertAdjacentHTML(
         'beforeend', `<section id="`+[promp]+`" class="goal `+goals[promp]["completed"]+`"><p class="task">`+goals[promp]["title"]+`</p>  <p class="times">`+goals[promp]["times"]+`</p></section>`
     );
-    toggle(promp)
+    toggle(promp);
 });
 
 // When click item add completed and increase number
