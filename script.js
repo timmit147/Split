@@ -17,30 +17,35 @@ for (item in goals){
 
 console.log(goals);
 
-// add item to goals
-document.querySelector(".add").addEventListener("click", function() {
-    let promp = prompt("Please enter your name", "Type your goal");
-    goals[promp] = ({ title: promp, times: 0, completed: "", day: day });
-    document.querySelector("main").insertAdjacentHTML(
-        'beforeend', `<section id="`+[promp]+`" class="goal `+goals[promp]["completed"]+`"><p class="task">`+goals[promp]["title"]+`</p>  <p class="times">`+goals[promp]["times"]+`</p></section>`
-    );
-    localStorage.setItem('data', JSON.stringify(goals));
-    document.getElementById(promp).addEventListener('click', () => {
-        if(goals[promp]["completed"] != "completed"){
-            document.getElementById(promp).classList.toggle("completed");
-            goals[promp]["completed"] = "completed";
-            goals[promp]["times"] = goals[promp]["times"]+1;
-            goals[promp]["day"] = day;
-            document.querySelector(`#`+promp+` .times`).innerHTML = goals[promp]["times"];            
+function toggle(item){
+    document.getElementById(item).addEventListener('click', () => {
+        if(goals[item]["completed"] != "completed"){
+            document.getElementById(item).classList.toggle("completed");
+            goals[item]["completed"] = "completed";
+            goals[item]["times"] = goals[item]["times"]+1;
+            goals[item]["day"] = day;
+            document.querySelector(`#`+item+` .times`).innerHTML = goals[item]["times"];            
         }
         else{
-            document.getElementById(promp).classList.toggle("completed");
-            goals[promp]["completed"] = "";
-            goals[promp]["times"] = goals[promp]["times"]-1;
-            document.querySelector(`#`+promp+` .times`).innerHTML = goals[promp]["times"];            
+            document.getElementById(item).classList.toggle("completed");
+            goals[item]["completed"] = "";
+            goals[item]["times"] = goals[item]["times"]-1;
+            document.querySelector(`#`+item+` .times`).innerHTML = goals[item]["times"];            
         }
         localStorage.setItem('data', JSON.stringify(goals));
     });
+}
+
+// add item to goals
+document.querySelector(".add").addEventListener("click", function() {
+    let promp = prompt("Please enter your name", "Type your goal");
+    promp = promp.replace(/[^a-zA-Z0-9 ]/g, '');
+    goals[promp] = ({ title: promp, times: 0, completed: "", day: day });
+    localStorage.setItem('data', JSON.stringify(goals));
+    document.querySelector("main").insertAdjacentHTML(
+        'beforeend', `<section id="`+[promp]+`" class="goal `+goals[promp]["completed"]+`"><p class="task">`+goals[promp]["title"]+`</p>  <p class="times">`+goals[promp]["times"]+`</p></section>`
+    );
+    toggle(promp)
 });
 
 // When click item add completed and increase number
@@ -56,57 +61,10 @@ function completed(){
             goal.classList.toggle("completed");
             goals[goal.id]["completed"] = "";
         }
-        goal.addEventListener('click', () => {
-
-        if(goals[goal.id]["completed"] != "completed"){
-            goal.classList.toggle("completed");
-            goals[goal.id]["completed"] = "completed";
-            goals[goal.id]["times"] = goals[goal.id]["times"]+1;
-            goals[goal.id]["day"] = day;
-            goal.querySelector(".times").innerHTML = goals[goal.id]["times"];            
-        }
-        else{
-            goal.classList.toggle("completed");
-            goals[goal.id]["completed"] = "";
-            goals[goal.id]["times"] = goals[goal.id]["times"]-1;
-            goal.querySelector(".times").innerHTML = goals[goal.id]["times"];            
-        }
-    });
+        
+        toggle(goal.id);
 
     });
 }
 
 completed();
-
-
-
-
-
-
-// // localStorage.setItem("dayCompleted", 10);
-// // localStorage.setItem("level", 5);
-// // console.log(localStorage.getItem("level"));
-
-
-// if(localStorage.getItem("dayCompleted") == day){
-//     document.querySelector("div").classList.add("grow2");
-//     document.querySelector(".done").classList.add("show2");
-// }
-
-// document.querySelector("div").addEventListener("click", function() {
-//     if(localStorage.getItem("dayCompleted") == day){    
-//         return
-//     }
-//     this.classList.add("grow");
-//     document.querySelector(".done").classList.add("show");
-//     localStorage.setItem("dayCompleted", day);
-//     console.log(localStorage.getItem("level"));
-//     if (localStorage.getItem("level") == null){
-//         localStorage.setItem("level", 5);
-//         return;
-//     }
-//     localStorage.setItem("level", parseInt(localStorage.getItem("level")) + 1);
-// });
-
-
-
