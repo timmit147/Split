@@ -10,29 +10,27 @@ else{
 
 // in beginning add all items
 for (item in goals){
-    const id = item["id"];
     document.querySelector("main").insertAdjacentHTML(
-        'beforeend', `<section id="`+[id]+`" class="goal `+goals[item]["completed"]+`"><p class="task">`+goals[item]["title"]+`</p>  <p class="times">`+goals[item]["times"]+`</p></section>`
+        'beforeend', `<section id="`+[item]+`" class="goal `+goals[item]["completed"]+`"><p class="task">`+goals[item]["title"]+`</p>  <p class="times">`+goals[item]["times"]+`</p></section>`
     );
 }
 
 // add item to goals
 document.querySelector(".add").addEventListener("click", function() {
     var promp = prompt("Please enter your name", "Type your goal");
-    promp = promp.split(/[^a-zA-Z0-9 ]/g).join("");
+    promp = promp.replace(/[^a-zA-Z0-9 ]/g, '');
     promp = promp.replace(/[0-9]/g, '');
-
     if(promp == ""){
         return;
     }
     const title = promp;
-    const id = promp.split(" ").join("_");
-    goals[id] = ({ title: title, times: 0, completed: "", day: day });
+    var id = promp.replace(" ", '_');
+    goals[promp] = ({ title: title, times: 0, completed: "", day: day });
     localStorage.setItem('data', JSON.stringify(goals));
     document.querySelector("main").insertAdjacentHTML(
-        'beforeend', `<section id="`+id+`" class="goal `+goals[id]["completed"]+`"><p class="task">`+goals[id]["title"]+`</p>  <p class="times">`+goals[id]["times"]+`</p></section>`
+        'beforeend', `<section id="`+promp+`" class="goal `+goals[promp]["completed"]+`"><p class="task">`+goals[promp]["title"]+`</p>  <p class="times">`+goals[promp]["times"]+`</p></section>`
     );
-    toggle(id);
+    toggle(promp);
 });
 
 // When click item add completed and increase number
@@ -41,15 +39,15 @@ function completed(){
         return;
     }
     document.querySelectorAll(".goal").forEach((goal) => {
-        if(goals[goal.id["day"]] != day && goals[goal.id["completed"]] != "completed" ){
+        if(goals[goal.id]["day"] != day && goals[goal.id]["completed"] != "completed" ){
             goal.remove();
             delete goals[goal.id];
             return;
         }
-        if(goals[goal.id["day"]] != day && goals[goal.id["completed"]] == "completed"){
-            goals[goal.id["day"]] = day;
+        if(goals[goal.id]["day"] != day && goals[goal.id]["completed"] == "completed"){
+            goals[goal.id]["day"] = day;
             goal.classList.toggle("completed");
-            goals[goal.id["completed"]] = "";
+            goals[goal.id]["completed"] = "";
         }
         toggle(goal.id);
 
