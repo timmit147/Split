@@ -25,7 +25,22 @@ document.querySelector(".add").addEventListener("click", function() {
         'beforeend', `<section id="`+[promp]+`" class="goal `+goals[promp]["completed"]+`"><p class="task">`+goals[promp]["title"]+`</p>  <p class="times">`+goals[promp]["times"]+`</p></section>`
     );
     localStorage.setItem('data', JSON.stringify(goals));
-    completed();
+    document.getElementById(promp).addEventListener('click', () => {
+        if(goals[promp]["completed"] != "completed"){
+            document.getElementById(promp).classList.toggle("completed");
+            goals[promp]["completed"] = "completed";
+            goals[promp]["times"] = goals[promp]["times"]+1;
+            goals[promp]["day"] = day;
+            document.querySelector(`#`+promp+` .times`).innerHTML = goals[promp]["times"];            
+        }
+        else{
+            document.getElementById(promp).classList.toggle("completed");
+            goals[promp]["completed"] = "";
+            goals[promp]["times"] = goals[promp]["times"]-1;
+            document.querySelector(`#`+promp+` .times`).innerHTML = goals[promp]["times"];            
+        }
+        localStorage.setItem('data', JSON.stringify(goals));
+    });
 });
 
 // When click item add completed and increase number
@@ -42,25 +57,22 @@ function completed(){
             goals[goal.id]["completed"] = "";
         }
         goal.addEventListener('click', () => {
-            if(goals[goal.id]["completed"] != "completed"){
-                goal.classList.toggle("completed");
-                goals[goal.id]["completed"] = "completed";
-                goals[goal.id]["times"] = goals[goal.id]["times"]+1;
-                goals[goal.id]["day"] = day;
-                goal.querySelector(".times").innerHTML = goals[goal.id]["times"];
-                completed();
-                
-            }
-            else{
-                goal.classList.toggle("completed");
-                goals[goal.id]["completed"] = "";
-                goals[goal.id]["times"] = goals[goal.id]["times"]-1;
-                goal.querySelector(".times").innerHTML = goals[goal.id]["times"];
-                completed();
-                
-            }
-            localStorage.setItem('data', JSON.stringify(goals));
-        }, {once : true});
+
+        if(goals[goal.id]["completed"] != "completed"){
+            goal.classList.toggle("completed");
+            goals[goal.id]["completed"] = "completed";
+            goals[goal.id]["times"] = goals[goal.id]["times"]+1;
+            goals[goal.id]["day"] = day;
+            goal.querySelector(".times").innerHTML = goals[goal.id]["times"];            
+        }
+        else{
+            goal.classList.toggle("completed");
+            goals[goal.id]["completed"] = "";
+            goals[goal.id]["times"] = goals[goal.id]["times"]-1;
+            goal.querySelector(".times").innerHTML = goals[goal.id]["times"];            
+        }
+    });
+
     });
 }
 
