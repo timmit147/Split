@@ -22,7 +22,9 @@ document.querySelector(".add").addEventListener("click", function() {
     if(promp == ""){
         return;
     }
-    goals[promp] = ({ title: promp, times: 0, completed: "", day: day });
+    title = promp;
+    promp = promp.replace(" ", '_');
+    goals[promp] = ({ title: title, times: 0, completed: "", day: day });
     localStorage.setItem('data', JSON.stringify(goals));
     document.querySelector("main").insertAdjacentHTML(
         'beforeend', `<section id="`+[promp]+`" class="goal `+goals[promp]["completed"]+`"><p class="task">`+goals[promp]["title"]+`</p>  <p class="times">`+goals[promp]["times"]+`</p></section>`
