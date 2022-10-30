@@ -24,13 +24,13 @@ document.querySelector(".add").addEventListener("click", function() {
         return;
     }
     const title = promp;
-    var id = promp.replace(" ", '_');
-    goals[promp] = ({ title: title, times: 0, completed: "", day: day });
+    var id = promp.replace(/ /g, '_');
+    goals[id] = ({ title: title, times: 0, completed: "", day: day });
     localStorage.setItem('data', JSON.stringify(goals));
     document.querySelector("main").insertAdjacentHTML(
-        'beforeend', `<section id="`+promp+`" class="goal `+goals[promp]["completed"]+`"><p class="task">`+goals[promp]["title"]+`</p>  <p class="times">`+goals[promp]["times"]+`</p></section>`
+        'beforeend', `<section id="`+id+`" class="goal `+goals[id]["completed"]+`"><p class="task">`+goals[id]["title"]+`</p>  <p class="times">`+goals[id]["times"]+`</p></section>`
     );
-    toggle(promp);
+    toggle(id);
 });
 
 // When click item add completed and increase number
