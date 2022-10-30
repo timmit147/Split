@@ -10,6 +10,12 @@ body{
     background-color: #92D293;
 }
 
+main {
+    height: calc(100% - 60px);
+    overflow-y: hidden;
+    overflow-x: hidden;
+}
+
 .goal{
     background-color: black;
     color: white;

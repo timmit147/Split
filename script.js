@@ -40,6 +40,9 @@ function toggle(item){
 document.querySelector(".add").addEventListener("click", function() {
     let promp = prompt("Please enter your name", "Type your goal");
     promp = promp.replace(/[^a-zA-Z0-9 ]/g, '');
+    if(promp == ""){
+        return;
+    }
     goals[promp] = ({ title: promp, times: 0, completed: "", day: day });
     localStorage.setItem('data', JSON.stringify(goals));
     document.querySelector("main").insertAdjacentHTML(
