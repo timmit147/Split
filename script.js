@@ -38,7 +38,7 @@ function toggle(item){
 
 // add item to goals
 document.querySelector(".add").addEventListener("click", function() {
-    let promp = prompt("Please enter your name", "Type your goal");
+    var promp = prompt("Please enter your name", "Type your goal");
     promp = promp.replace(/[^a-zA-Z0-9 ]/g, '');
     if(promp == ""){
         return;
@@ -67,7 +67,6 @@ function completed(){
             goal.classList.toggle("completed");
             goals[goal.id]["completed"] = "";
         }
-        
         toggle(goal.id);
 
     });
