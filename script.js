@@ -20,6 +20,7 @@ for (item in goals){
 document.querySelector(".add").addEventListener("click", function() {
     var promp = prompt("Please enter your name", "Type your goal");
     promp = promp.split(/[^a-zA-Z0-9 ]/g).join("");
+    promp = promp.replace(/[0-9]/g, '');
 
     if(promp == ""){
         return;
@@ -29,7 +30,7 @@ document.querySelector(".add").addEventListener("click", function() {
     goals[id] = ({ title: title, times: 0, completed: "", day: day });
     localStorage.setItem('data', JSON.stringify(goals));
     document.querySelector("main").insertAdjacentHTML(
-        'beforeend', `<section id="`+id+`" class="goal `+goals[promp]["completed"]+`"><p class="task">`+goals[promp]["title"]+`</p>  <p class="times">`+goals[promp]["times"]+`</p></section>`
+        'beforeend', `<section id="`+id+`" class="goal `+goals[id]["completed"]+`"><p class="task">`+goals[id]["title"]+`</p>  <p class="times">`+goals[id]["times"]+`</p></section>`
     );
     toggle(id);
 });
@@ -57,8 +58,6 @@ function completed(){
 
 function toggle(item){
     document.getElementById(item).addEventListener('click', () => {
-        console.log(goals);
-        console.log(item);
         if(goals[item]["completed"] != "completed"){
             document.getElementById(item).classList.toggle("completed");
             goals[item]["completed"] = "completed";
