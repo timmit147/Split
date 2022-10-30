@@ -1,7 +1,21 @@
 var time = new Date();
 var day = time.getDate();
 
-var goals = {}
+if(localStorage.getItem('data')){
+    var goals = JSON.parse(localStorage.getItem('data'));
+}
+else{
+    var goals = {};
+}
+
+// in beginning add all items
+for (item in goals){
+    document.querySelector("main").insertAdjacentHTML(
+        'beforeend', `<section id="`+[item]+`" class="goal `+goals[item]["completed"]+`"><p class="task">`+goals[item]["title"]+`</p>  <p class="times">`+goals[item]["times"]+`</p></section>`
+    );
+}
+
+console.log(goals);
 
 // add item to goals
 document.querySelector(".add").addEventListener("click", function() {
@@ -10,6 +24,7 @@ document.querySelector(".add").addEventListener("click", function() {
     document.querySelector("main").insertAdjacentHTML(
         'beforeend', `<section id="`+[promp]+`" class="goal `+goals[promp]["completed"]+`"><p class="task">`+goals[promp]["title"]+`</p>  <p class="times">`+goals[promp]["times"]+`</p></section>`
     );
+    localStorage.setItem('data', JSON.stringify(goals));
     completed();
 });
 
@@ -39,6 +54,7 @@ function completed(){
                 completed();
                 
             }
+            localStorage.setItem('data', JSON.stringify(goals));
         }, {once : true});
     });
 }
